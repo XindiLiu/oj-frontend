@@ -1,0 +1,20 @@
+api:
+  baseUrl: "http://localhost:8080"
+
+  auth:
+    register: "/register"
+    login: "/login"
+    logout: "/logout"
+
+  problems:
+    getAll: "/problem/page"
+    getDetail: "/problem/detail"
+    submit: "/problem/{id}/submit"
+    create: "/problem"
+
+  users:
+    getInfo: "/user/{userId}"
+    getSubmissions: "/user/{userId}/submissions"
+
+  submissions:
+    getDetail: "/submission/{submissionId}"
