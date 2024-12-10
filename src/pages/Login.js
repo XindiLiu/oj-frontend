@@ -1,4 +1,3 @@
-// src/pages/Login.js
 import React, { useState, useContext } from 'react';
 import {
     Box,
@@ -52,10 +51,15 @@ function Login() {
 
     if (isLoggedIn) {
         return (
-            <Box maxW="400px" mx="auto" mt={10} p={6} borderWidth="1px" borderRadius="lg" boxShadow="lg">
-                <Heading as="h2" size="lg" textAlign="center" mb={4}>
-                    Welcome, {user.username}!
-                </Heading>
+            <Box maxW="800px" mx="auto" mt={10} p={6} borderWidth="1px" borderRadius="lg" boxShadow="lg">
+                <VStack spacing={4}>
+                    <Heading as="h2" size="lg" textAlign="center" mb={4}>
+                        You are already logged in as {user.username}!
+                    </Heading>
+                    <Button onClick={() => navigate(-1)} colorScheme="blue" mt={4}>
+                        Go Back
+                    </Button>
+                </VStack>
             </Box>
         );
     }

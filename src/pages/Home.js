@@ -10,7 +10,7 @@ function Home() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        api.get('/problem/page?pageNumber=1&pageSize=10')
+        api.get('/problem/page?pageNumber=0&pageSize=10')
             .then(response => {
                 setProblems(response.data.data.content);
             })
@@ -29,7 +29,7 @@ function Home() {
     return (
         <Box maxW="1200px" mx="auto" p={4}>
             <Heading as="h1" size="xl" mb={6} textAlign="center">
-                Reading List Problems
+                Problems
             </Heading>
             <ProblemList problems={problems} />
         </Box>

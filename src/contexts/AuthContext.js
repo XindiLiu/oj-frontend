@@ -15,10 +15,21 @@ export const AuthProvider = ({ children }) => {
     const fetchCurrentUser = async () => {
         try {
             const response = await api.get('/currentUser');
+            if (!response.data.success) {
+                throw new Error('Bad credentials');
+            }
             setUser(response.data.data);
             setIsLoggedIn(true);
         } catch (error) {
-            console.error('Failed to fetch current user:', error);
+            console.error('Bad credentials:', error);
+            Cookies.remove('token', { path: '/' });
+            toast({
+                title: 'Invalid credentials',
+                description: 'Please login again',
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            });
             setIsLoggedIn(false);
             setUser(null);
         } finally {
@@ -37,6 +48,13 @@ export const AuthProvider = ({ children }) => {
 
     const login = async (username, password) => {
         try {
+            // const token = Cookies.get('token');
+            // if (token) {
+            //     fetchCurrentUser();
+            //     if (isLoggedIn) {
+            //         return { success: false, message: 'Already logged in' };
+            //     }
+            // }
             const response = await api.post('/login', { username, password });
             if (response.data.success) {
                 const token = response.data.data;
@@ -51,6 +69,8 @@ export const AuthProvider = ({ children }) => {
                 });
                 return { success: true };
             } else {
+                setIsLoggedIn(false);
+                setUser(null);
                 return { success: false, message: response.data.msg };
             }
         } catch (error) {
@@ -62,6 +82,8 @@ export const AuthProvider = ({ children }) => {
                 duration: 5000,
                 isClosable: true,
             });
+            setIsLoggedIn(false);
+            setUser(null);
             return { success: false, message: 'Invalid username or password' };
         }
     };
