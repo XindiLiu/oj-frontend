@@ -18,13 +18,14 @@ import {
 } from '@chakra-ui/react';
 import { api } from '../services/api';
 import SubmissionPanel from '../components/SubmissionPanel';
-
+import CodeEditor from '../components/CodeEditor';
+import SubmissionResult from '../components/SubmissionResult';
 const Submission = () => {
     const { id } = useParams();
     const [submission, setSubmission] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const [isEditing, setIsEditing] = useState(false);
     useEffect(() => {
         const fetchSubmission = async () => {
             try {
@@ -48,20 +49,20 @@ const Submission = () => {
             <Heading as="h1" size="xl" mb={4}>
                 Submission {submission.id}
             </Heading>
-            <Button
+            {/* <Button
                 as={RouterLink}
                 to={`/problem/${submission.problem.id}`}
                 colorScheme="teal"
                 mb={4}
             >
                 Back to Problem
-            </Button>
+            </Button> */}
             {/* TODO: Add problem id */}
-            {/* <Text>
+            <Text>
                 <strong>Problem:</strong> <Link as={RouterLink} to={`/problem/${submission.problem.id}`} color="teal.500">{submission.problem.title}</Link>
-            </Text> */}
+            </Text>
             <Text color="gray.600" mb={4}>
-                {submission.user.name} | {new Date(submission.createTime).toLocaleString()}
+                {submission.user.displayName} | {new Date(submission.createTime).toLocaleString()}
             </Text>
 
             <Box mb={6}>
@@ -69,20 +70,24 @@ const Submission = () => {
                     <Table variant="simple">
                         <Tbody>
                             <Tr>
+                                <Td>Status</Td>
+                                <Td> {submission.status} </Td>
+                            </Tr>
+                            <Tr>
                                 <Td>Judgement</Td>
-                                <Td>{submission.judgement}</Td>
+                                {submission.status === 'RUNNING' ? <Td> - </Td> : <Td> <SubmissionResult statusCode={submission.judgement} score={submission.score} /> </Td>}
                             </Tr>
                             <Tr>
                                 <Td>Run Time</Td>
-                                <Td>{submission.runTimeMs} ms</Td>
+                                {submission.status === 'FINISHED' ? <Td> {submission.runTimeMs} ms</Td> : <Td> - </Td>}
                             </Tr>
                             <Tr>
                                 <Td>Memory Usage</Td>
-                                <Td>{(submission.memoryByte / (1024 * 1024)).toFixed(2)} MB</Td>
+                                {submission.status === 'FINISHED' ? <Td>{(submission.memoryByte / (1024 * 1024)).toFixed(2)} MB</Td> : <Td> - </Td>}
                             </Tr>
                             <Tr>
                                 <Td>Passed Test Cases</Td>
-                                <Td>{submission.numPassedCases}/{submission.totalCases}</Td>
+                                {submission.status === 'FINISHED' ? <Td> {submission.numPassedCases}/{submission.totalCases}</Td> : <Td> - </Td>}
                             </Tr>
                         </Tbody>
                     </Table>
@@ -100,7 +105,27 @@ const Submission = () => {
                 <Heading as="h2" size="md" mb={2}>
                     Code
                 </Heading>
-                <SubmissionPanel problemId={submission.problem.id} initCode={submission.code} initLanguage={submission.language} />
+
+
+                {isEditing ?
+                    <SubmissionPanel problemId={submission.problem.id} initCode={submission.code} initLanguage={submission.language} /> :
+                    (
+                        <>
+                            <CodeEditor
+                                language={submission.language}
+                                code={submission.code}
+                                readOnly={true}
+                            />
+                            <Button
+                                onClick={() => setIsEditing(true)}
+                                colorScheme="blue"
+                                mb={4}
+                            >
+                                Edit and Resubmit
+                            </Button>
+                        </>
+                    )}
+
             </Box>
         </Box>
     );

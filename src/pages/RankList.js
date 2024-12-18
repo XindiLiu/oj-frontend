@@ -65,7 +65,7 @@ const RankList = () => {
                 <Thead>
                     <Tr>
                         <Th>Rank</Th>
-                        <Th>Name</Th>
+                        <Th>User</Th>
                         <Th>Score</Th>
                     </Tr>
                 </Thead>
@@ -75,7 +75,7 @@ const RankList = () => {
                             <Td>{index + 1}</Td>
                             <Td>
                                 <Link as={RouterLink} to={`/user/${user.id}`} color="teal.500">
-                                    {user.name}
+                                    {user.displayName}
                                 </Link>
                             </Td>
                             <Td>{user.score}</Td>

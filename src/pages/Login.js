@@ -119,7 +119,7 @@ function Login() {
 function RegisterForm({ toggleMode }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+    const [displayName, setDisplayName] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
@@ -135,12 +135,12 @@ function RegisterForm({ toggleMode }) {
         }
 
         try {
-            const response = await api.post('/register', { username, password, name });
+            const response = await api.post('/register', { username, password, displayName });
             setSuccess('Registration successful! You can now log in.');
             setUsername('');
             setPassword('');
             setConfirmPassword('');
-            setName('');
+            setDisplayName('');
             // Optionally, switch to login mode
             // toggleMode();
         } catch (err) {
@@ -172,13 +172,13 @@ function RegisterForm({ toggleMode }) {
                     placeholder="Enter your username"
                 />
             </FormControl>
-            <FormControl id="name" isRequired>
-                <FormLabel>Name</FormLabel>
+            <FormControl id="displayName" isRequired>
+                <FormLabel>Display Name</FormLabel>
                 <Input
                     type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter your name"
+                    value={displayName}
+                    onChange={(e) => setDisplayName(e.target.value)}
+                    placeholder="Enter your displayName"
                 />
             </FormControl>
             <FormControl id="password" isRequired>

@@ -66,9 +66,8 @@ const ProblemDescription = () => {
                 ) : bestSubmission ? (
                     <HStack p={4} borderRadius="md">
                         <Text><strong>Best Result:</strong> </Text>
-                        <SubmissionResult statusCode={bestSubmission.judgement} score={bestSubmission.score} />
-                        {/* <Text><strong>Time:</strong> {bestSubmission.runTimeMs} ms</Text>
-                        <Text><strong>Memory:</strong> {(bestSubmission.memoryByte / (1024 * 1024)).toFixed(2)} MB</Text> */}
+                        <SubmissionResult statusCode={bestSubmission.status} score={bestSubmission.highestScore} submissionId={bestSubmission.submissionId} />
+                        {/* <Text><strong>Memory:</strong> {(bestSubmission.memoryByte / (1024 * 1024)).toFixed(2)} MB</Text> */}
                     </HStack>
                 ) : (
                     <Text>Not tried</Text>

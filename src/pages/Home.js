@@ -1,4 +1,3 @@
-// src/pages/Home.js
 import React, { useEffect, useState } from 'react';
 import { Box, Heading, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
 import { api } from '../services/api';

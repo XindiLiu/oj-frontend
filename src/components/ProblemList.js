@@ -42,9 +42,9 @@ function ProblemList({ problems }) {
                                     </Td>
                                     <Td isNumeric>{problem.difficulty}</Td>
                                     <Td isNumeric>
-                                        {problem.userStatus ? (
+                                        {problem.userResult ? (
                                             <SubmissionResult
-                                                statusCode={problem.userStatus}
+                                                statusCode={problem.userResult}
                                                 score={problem.highestScore}
                                             />
                                         ) : (

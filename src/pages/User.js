@@ -60,7 +60,7 @@ const UserPage = () => {
     return (
         <Box mx="auto" mt={10} p={6} borderWidth="1px" borderRadius="lg" boxShadow="lg">
             <Heading as="h2" size="lg" mb={4}>
-                {userInfo.name}
+                {userInfo.displayName}
             </Heading>
             <List spacing={3}>
                 <ListItem>

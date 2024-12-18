@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -41,7 +40,7 @@ function Navbar() {
             <HStack spacing={4}>
               {user && (
                 <Link as={RouterLink} to={`/user/${user.id}`} color="white">
-                  Logged in as {user.name}
+                  Logged in as {user.displayName}
                 </Link>
               )}
               <Button as={RouterLink} to="/logout" variant="ghost" color="white">

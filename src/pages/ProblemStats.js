@@ -25,7 +25,7 @@ import SubmissionPanel from '../components/SubmissionPanel';
 import SubmissionResult from '../components/SubmissionResult';
 import LanguageSelect from '../components/LanguageSelect';
 import { AuthContext } from '../contexts/AuthContext';
-
+import UserLink from '../components/UserLink';
 const ProblemStats = () => {
     const { id } = useParams();
     const [problem, setProblem] = useState(null);
@@ -37,7 +37,7 @@ const ProblemStats = () => {
 
     // New states for language selection and submissions
     const [languages, setLanguages] = useState([]);
-    const [selectedLanguage, setSelectedLanguage] = useState('');
+    const [selectedLanguage, setSelectedLanguage] = useState('CPP');
     const [rankedSubmissions, setRankedSubmissions] = useState([]);
     const [rankedLoading, setRankedLoading] = useState(false);
     const [rankedError, setRankedError] = useState(null);
@@ -68,21 +68,9 @@ const ProblemStats = () => {
             }
         };
 
-        const fetchLanguages = async () => {
-            try {
-                const response = await api.get(`/languages`);
-                setLanguages(response.data.languages);
-                if (response.data.languages.length > 0) {
-                    setSelectedLanguage(response.data.languages[0]);
-                }
-            } catch (err) {
-                console.error('Failed to fetch languages:', err);
-            }
-        };
 
         fetchProblemDetails();
         fetchBestSubmission();
-        fetchLanguages();
     }, [id]);
 
     useEffect(() => {
@@ -142,8 +130,9 @@ const ProblemStats = () => {
                             <strong>Best Result:</strong>{' '}
                         </Text>
                         <SubmissionResult
-                            statusCode={bestSubmission.judgement}
-                            score={bestSubmission.score}
+                            statusCode={bestSubmission.status}
+                            score={bestSubmission.highestScore}
+                            submissionId={bestSubmission.submissionId}
                         />
                     </HStack>
                 ) : (
@@ -199,7 +188,7 @@ const ProblemStats = () => {
                             {rankedSubmissions.map((submission, index) => (
                                 <Tr key={submission.id}>
                                     <Td>{index + 1}</Td>
-                                    <Td>{submission.user.name}</Td>
+                                    <Td> <UserLink user={submission.user} /> </Td>
                                     <Td>{submission.runTimeMs} ms
                                     </Td>
                                     <Td>

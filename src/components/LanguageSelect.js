@@ -5,10 +5,11 @@ import { FormControl, FormLabel, Select } from '@chakra-ui/react';
 const LanguageSelect = ({ selectedLanguage, onChange }) => (
 
     <Select maxWidth="200px" value={selectedLanguage} onChange={onChange}>
-        <option value="JAVA">Java</option>
-        <option value="PYTHON">Python</option>
         <option value="CPP">C++</option>
         <option value="C">C</option>
+        <option value="JAVA">Java</option>
+        <option value="PYTHON">Python</option>
+
         {/* Add more languages as needed */}
     </Select>
 

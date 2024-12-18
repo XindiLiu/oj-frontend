@@ -18,7 +18,7 @@ import { AuthContext } from '../contexts/AuthContext';
 import { api } from '../services/api';
 import SubmissionResult from './SubmissionResult';
 import PageSwitcher from './PageSwitcher';
-
+import { useNavigate } from 'react-router-dom';
 function SubmissionList({ id }) {
     const { user } = useContext(AuthContext);
     const [submissions, setSubmissions] = useState([]);
@@ -28,7 +28,7 @@ function SubmissionList({ id }) {
     // Pagination state
     const [currentPage, setCurrentPage] = useState(0);
     const [totalPages, setTotalPages] = useState(1);
-
+    const navigate = useNavigate();
     const fetchSubmissions = async (params = {}) => {
         try {
             const defaultParams = {
@@ -107,7 +107,7 @@ function SubmissionList({ id }) {
                 </Thead>
                 <Tbody>
                     {submissions.map((submission) => (
-                        <Tr key={submission.id}>
+                        <Tr key={submission.id} >
                             <Td>{new Date(submission.createTime).toLocaleString()}</Td>
                             <Td>
                                 <Link as={RouterLink} to={`/problem/${submission.problem.id}`} color="teal.500">
@@ -115,7 +115,7 @@ function SubmissionList({ id }) {
                                 </Link>
                             </Td>
                             <Td>
-                                <SubmissionResult statusCode={submission.judgement} score={submission.score} />
+                                <SubmissionResult statusCode={submission.judgement} score={submission.score} submissionId={submission.id} />
                             </Td>
                             <Td>{submission.runTimeMs ? `${submission.runTimeMs} ms` : '-'}</Td>
                             <Td>{submission.language}</Td>

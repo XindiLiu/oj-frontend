@@ -38,7 +38,7 @@ const ProblemSearch = ({ onSearch }) => {
     };
 
     return (
-        <Box mb={4}>
+        <Box as="form" onSubmit={handleSubmit} mb={4}>
             <HStack spacing={4}>
                 <VStack spacing={2} align="stretch">
                     <Button type="submit" colorScheme="blue">
@@ -48,7 +48,7 @@ const ProblemSearch = ({ onSearch }) => {
                         Reset Filters
                     </Button>
                 </VStack>
-                <Box as="form" onSubmit={handleSubmit} flex="1">
+                <Box flex="1">
                     <FormControl id="title">
                         <FormLabel>Title</FormLabel>
                         <Input

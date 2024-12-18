@@ -7,7 +7,7 @@ import 'codemirror/theme/material.css';
 // Import language modes as needed
 import { api } from '../services/api';
 import { useNavigate } from 'react-router-dom';
-
+import CodeEditor from './CodeEditor';
 const LanguageSelect = ({ selectedLanguage, onChange }) => (
     <FormControl id="language" mb={4}>
         <FormLabel>Language:</FormLabel>
@@ -94,21 +94,10 @@ const SubmissionPanel = ({ problemId, initCode, initLanguage }) => {
                 <LanguageSelect selectedLanguage={language} onChange={handleLanguageChange} />
 
                 <Box borderWidth="1px" borderRadius="md" overflow="hidden">
-                    <CodeMirror
-                        value={code}
-                        options={{
-                            mode: modeMap[language] || 'javascript',
-                            theme: 'material',
-                            lineNumbers: true,
-                            indentUnit: 4,
-                            tabSize: 2,
-                            indentWithTabs: false,
-                            autofocus: true,
-                            lineWrapping: true,
-                        }}
-                        onBeforeChange={(editor, data, value) => {
-                            setCode(value);
-                        }}
+                    <CodeEditor
+                        language={language}
+                        code={code}
+                        onCodeChange={setCode}
                     />
                 </Box>
 

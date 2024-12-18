@@ -14,7 +14,7 @@ import { api } from '../services/api';
 
 function EditProfile() {
     const { user, setUser } = useContext(AuthContext);
-    const [newName, setNewName] = useState(user.name || '');
+    const [newName, setNewName] = useState(user.displayName || '');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const toast = useToast();
@@ -42,7 +42,7 @@ function EditProfile() {
         try {
             const response = await api.post('/userUpdate', {
                 id: user.id,
-                name: newName,
+                displayName: newName,
             });
 
             if (response.data.success) {
@@ -72,7 +72,7 @@ function EditProfile() {
             )}
             <form onSubmit={handleSubmit}>
                 <FormControl id="newName" isRequired mb={4}>
-                    <FormLabel>New Name</FormLabel>
+                    <FormLabel>New Display Name</FormLabel>
                     <Input
                         type="text"
                         value={newName}

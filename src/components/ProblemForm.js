@@ -12,7 +12,7 @@ import {
     AlertIcon,
     HStack,
     IconButton,
-    Text
+    Text, useToast
 } from '@chakra-ui/react';
 import { api } from '../services/api';
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +32,7 @@ function ProblemForm({ mode, problemId }) {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate();
-
+    const toast = useToast();
     useEffect(() => {
         if (mode === 'edit' && problemId) {
             // Fetch existing problem data
@@ -90,11 +90,24 @@ function ProblemForm({ mode, problemId }) {
 
         try {
             if (mode === 'add') {
-                await api.post('/problem/add', payload);
-                setSuccess('Problem added successfully!');
+                const response = await api.post('/problem/add', payload);
+                toast({
+                    title: 'Success',
+                    description: 'Problem added successfully!',
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                });
+                navigate(`/problem/update/${response.data.data.problem.id}`);
             } else if (mode === 'edit') {
-                await api.post(`/problem/update/${problemId}`, payload);
-                setSuccess('Problem updated successfully!');
+                const response = await api.post(`/problem/update/${problemId}`, payload);
+                toast({
+                    title: 'Success',
+                    description: 'Problem updated successfully!',
+                    status: 'success',
+                    duration: 5000,
+                    isClosable: true,
+                });
             }
         } catch (error) {
             console.error(`There was an error during ${mode === 'add' ? 'adding' : 'updating'} the problem!`, error);
@@ -119,12 +132,6 @@ function ProblemForm({ mode, problemId }) {
 
     return (
         <VStack as="form" onSubmit={handleSubmit} spacing={4}>
-            {success && (
-                <Alert status="success">
-                    <AlertIcon />
-                    {success}
-                </Alert>
-            )}
             {error && (
                 <Alert status="error">
                     <AlertIcon />

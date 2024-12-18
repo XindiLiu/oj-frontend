@@ -8,10 +8,9 @@ import 'codemirror/mode/javascript/javascript';
 import 'codemirror/mode/python/python';
 import 'codemirror/mode/clike/clike';
 // Import themes if desired
-// import 'codemirror/theme/material.css';
+// import 'codemirror/theme/idea.css';
 
-const CodeEditor = ({ language }) => {
-    const [code, setCode] = useState('');
+const CodeEditor = ({ language, code, onCodeChange, readOnly = false }) => {
     const modeMap = {
         'JAVA': 'text/x-java',
         'PYTHON': 'python',
@@ -26,22 +25,22 @@ const CodeEditor = ({ language }) => {
                 value={code}
                 options={{
                     mode: modeMap[language] || 'javascript',
-                    theme: 'material',
+                    theme: 'default',
                     lineNumbers: true,
                     indentUnit: 4,
-                    tabSize: 4,
+                    tabSize: 2,
                     indentWithTabs: false,
+                    autofocus: !readOnly,
+                    lineWrapping: true,
+                    readOnly: readOnly,
                 }}
                 onBeforeChange={(editor, data, value) => {
-                    setCode(value);
+                    onCodeChange(value);
                 }}
             />
         </Box>
     );
 };
 
-CodeEditor.propTypes = {
-    language: PropTypes.string.isRequired,
-};
 
 export default CodeEditor;
